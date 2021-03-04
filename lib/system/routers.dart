@@ -1,4 +1,3 @@
-import 'package:my_flutters/app/config/configs.dart';
 import 'package:provider/provider.dart';
 
 import '../system/routers_services.dart';
