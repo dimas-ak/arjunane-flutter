@@ -8,7 +8,7 @@ import '../../command/commands.dart';
 
 class CommandsCommand extends Command {
 
-  String signature = "make:command {fileName}";
+  String signature = "create:command {fileName}";
 
   String description = "Create a Command";
 

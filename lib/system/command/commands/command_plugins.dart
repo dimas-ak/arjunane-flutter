@@ -5,7 +5,7 @@ import '../commands_class.dart';
 class CommandPlugins extends Command {
 
   // The name and signature of the console command.
-  String signature = "insert:plugin";
+  String signature = "insert:plugins";
 
   // The console command description.
   String description = "Insert Plugins";
