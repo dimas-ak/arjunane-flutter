@@ -49,11 +49,13 @@ void snackBar(BuildContext context, String text, {
     ),
   );
 
-  Scaffold.of(context).showSnackBar(snackBar);
+  ScaffoldMessenger.of(context).showSnackBar(snackBar);
+  // Scaffold.of(context).showSnackBar(snackBar);
 }
 
 void snackBarClose(BuildContext context) {
-  Scaffold.of(context).removeCurrentSnackBar();
+  ScaffoldMessenger.of(context).removeCurrentSnackBar();
+  // Scaffold.of(context).removeCurrentSnackBar();
 }
 
 _SnackBarHelper _getSnackbarStyle(TypeStyle style) {
