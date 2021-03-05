@@ -6,9 +6,11 @@ class MHomeModel extends Model {
 
   void exampleMethod(Controller controller) {
 
-    // var con = controller as HomeController;
-    // con.title = "Mencoba saja";
-    notifyListeners();
+    setFunction(() {
+      // var con = controller as HomeController;
+      // con.title = "Mencoba saja";
+      notifyListeners();
+    });
   }
 
 }
