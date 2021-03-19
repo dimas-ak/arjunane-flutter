@@ -26,7 +26,8 @@ class CommandPlugins extends Command {
 
       newValue = "$match\n";
       newValue += "  http: any\n";
-      newValue += "  provider: any";
+      newValue += "  provider: any\n";
+      newValue += "  shared_preferences: any";
       
       fileText = fileText.replaceAll(new RegExp(regex), newValue);
 
