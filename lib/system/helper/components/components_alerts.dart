@@ -6,34 +6,50 @@ import 'components_buttons.dart';
 import 'components_standards.dart';
 import 'components_type_style.dart';
 
-Widget alertContainer(String text, {String title, TypeStyle style = TypeStyle.primary, Widget Function(_AlertContainerHelper) child}) {
+class AlertsContainer extends StatelessWidget
+{
+  final String text;
+  final String title;
+  final TypeStyle style;
+  final Widget Function(_AlertContainerHelper) child;
 
-  Widget _child;
+  AlertsContainer(this.text, {
+    Key key,
+    this.title,
+    this.style = TypeStyle.primary,
+    this.child
+  }) : super(key: key);
 
-  var colors = _getStyleAlertContainer(style);
+  @override
+  Widget build(BuildContext context) {
+    Widget _child;
 
-  if(child == null) {
-    _child = Column(
-      mainAxisSize: MainAxisSize.min,
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        title == null ? Container() : heading(title, fontColor: colors.textColor, typeHeading: TypeHeading.h3),
-        title == null ? Container() : Divider( color: colors.textColor ),
-        Text(text, style: TextStyle(color: colors.textColor))
-      ],
+    var colors = _getStyleAlertContainer(style);
+
+    if(child == null) {
+      _child = Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          title == null ? Container() : heading(title, fontColor: colors.textColor, typeHeader: TypeHeader.h3),
+          title == null ? Container() : Divider( color: colors.textColor ),
+          Text(text, style: TextStyle(color: colors.textColor))
+        ],
+      );
+    } else _child = child(colors);
+
+    return Container(
+      width: double.infinity,
+      padding: EdgeInsets.all(10),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.all(Radius.circular(10)),
+        border: Border.all(width: 2, color: colors.borderColor),
+        color: colors.backgroundColor
+      ),
+      child: _child
     );
-  } else _child = child(colors);
-
-  return Container(
-    width: double.infinity,
-    padding: EdgeInsets.all(10),
-    decoration: BoxDecoration(
-      borderRadius: BorderRadius.all(Radius.circular(10)),
-      border: Border.all(width: 2, color: colors.borderColor),
-      color: colors.backgroundColor
-    ),
-    child: _child
-  );
+  }
+  
 }
 
 Future<Widget> showLoadingDialog({
@@ -96,7 +112,7 @@ Future<Widget> showConfirmDialog({
           Navigator.of(context, rootNavigator: true).pop();
           if(noConfirm != null) noConfirm();
       }),
-      button(textYes, onPressed: () {
+      Buttons(textYes, onPressed: () {
         Navigator.of(context, rootNavigator: true).pop();
         yesConfirm();
       })
