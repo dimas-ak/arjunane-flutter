@@ -11,6 +11,8 @@ class CHomePage extends StatefulWidget {
 class CHomeController extends Controller<CHomePage> {
   MHomeModel mHomeModel = new MHomeModel();
 
+  String title = "Home Page";
+
   @override
   void initState() {
 
