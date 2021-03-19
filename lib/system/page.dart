@@ -25,8 +25,8 @@ abstract class Controller<T extends StatefulWidget> extends State<T> {
 }
 
 abstract class View<T extends Controller> extends StatelessWidget {
-  final T prop;
-  View(this.prop);
+  final T widget;
+  View(this.widget);
 
   ViewExtends<View> getChildView(ViewExtends<View> child) => child;
 
@@ -42,8 +42,8 @@ abstract class View<T extends Controller> extends StatelessWidget {
 }
 
 abstract class ViewExtends<T extends View> extends StatelessWidget {
-  final T prop;
-  ViewExtends(this.prop);
+  final T childWidget;
+  ViewExtends(this.childWidget);
 
   // This widget is the root of your application.
   // This method is rerun every time setState is called, for instance as done
