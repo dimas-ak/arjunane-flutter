@@ -28,7 +28,7 @@ class CommandPlugins extends Command {
         newValue = "$match\n";
         if(!isPackageExist(fileText, 'http')) newValue += "  http: any\n";
         if(!isPackageExist(fileText, 'provider')) newValue += "  provider: any\n";
-        if(!isPackageExist(fileText, 'path_provider')) newValue += "  path_provider: any";
+        if(!isPackageExist(fileText, 'path_provider')) newValue += "  path_provider: any\n";
         if(!isPackageExist(fileText, 'shared_preferences')) newValue += "  shared_preferences: any";
         
         fileText = fileText.replaceAll(new RegExp(regex), newValue);
