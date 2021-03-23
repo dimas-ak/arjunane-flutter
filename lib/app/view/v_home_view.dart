@@ -4,14 +4,14 @@ import '../../system/arjunane.dart';
 
 class VHomeView extends View<CHomeController> {
 
-  VHomeView (CHomeController widget) : super(widget);
+  VHomeView (CHomeController controller) : super(controller);
 
   @override
   Widget build(BuildContext context) {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.title)
+        title: Text(controller.title)
       ),
       body: Container(
         // child: your child

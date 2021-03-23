@@ -82,10 +82,10 @@ void closeDialog(BuildContext context) {
   Navigator.of(context, rootNavigator: true).pop();
 }
 
-Future<Widget> showConfirmDialog({
+Future<bool> showConfirmDialog({
   @required BuildContext context, 
   @required String message, 
-  @required Function yesConfirm, 
+  Function yesConfirm, 
   String title = "Info", 
   String textYes = "Yes", 
   String textNo = "No", 
@@ -96,27 +96,29 @@ Future<Widget> showConfirmDialog({
 }) async {
 
   var icon = _getIcon(typeAlertDialog);
-
-  return await _alertDialog(context, dismissible, title, message, icon : icon, 
-    children: [
-      Text(title, style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20)),
-      SizedBox(height: 10),
-      Expanded(
-        child: SingleChildScrollView(
-          child: Text(message),
-      ))
-    ], actions: [
-      TextButton(
-        child: Text(textNo), 
-        onPressed: () {
+  bool confirm = false;
+  await _alertDialog(context, dismissible, title, message, icon : icon, 
+      children: [
+        Text(title, style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20)),
+        SizedBox(height: 10),
+        Expanded(
+          child: SingleChildScrollView(
+            child: Text(message),
+        ))
+      ], actions: [
+        TextButton(
+          child: Text(textNo), 
+          onPressed: () {
+            Navigator.of(context, rootNavigator: true).pop();
+            if(noConfirm != null) noConfirm();
+        }),
+        Buttons(textYes, onPressed: () {
+          confirm = true;
           Navigator.of(context, rootNavigator: true).pop();
-          if(noConfirm != null) noConfirm();
-      }),
-      Buttons(textYes, onPressed: () {
-        Navigator.of(context, rootNavigator: true).pop();
-        yesConfirm();
-      })
+          if(yesConfirm != null) yesConfirm();
+        })
   ]);
+  return confirm;
 }
 
 Future<Widget> showAlertDialog({
