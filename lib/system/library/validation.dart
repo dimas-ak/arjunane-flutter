@@ -7,7 +7,7 @@ import 'package:flutter/material.dart';
 
 class Validation
 {
-  final Map<String, String> formErrorsDefault = 
+  final Map<String, String> _formErrorsDefault = 
   {
     "ip" :                 "{field} tidak valid.",
     "gt" :                 "{field} harus lebih besar dari {param}.", //Greater Than
@@ -43,19 +43,27 @@ class Validation
     "alpha_numeric_dash" : "{field} hanya boleh diisi dengan Alphabet, Angka dan Garis.",
   };
 
-  Map<int, Map<String, String>> fields = new Map<int, Map<String, String>>();
+  Map<int, Map<String, String>> _fields = new Map<int, Map<String, String>>();
 
-  List<_FieldsValidations> fieldsValidation = [];
+  List<_FieldsValidations> _fieldsValidation = [];
 
-  Map<String, String> formErrors = new Map<String, String>();
+  Map<String, String> _formErrors = new Map<String, String>();
 
-  Map<String,bool Function(String a)> methods = new Map<String,bool Function(String a)>();
+  // Map<String,bool Function(String a)> methods = new Map<String,bool Function(String a)>();
 
-  bool isEnabled;
+  // bool isEnabled;
 
+  /// Parameters
+  /// * name ex : required
+  /// * text : The {field} is required
+  ///
+  /// Example :
+  /// ```dart
+  /// valid.setErrorMessage("required", "The {field} is required.");
+  /// ```
   void setErrorMessage(String name, String text)
   {
-    
+    _formErrors[name] = text;
   }
   /// Parameters :
   /// * value : is from Validator or OnInput, etc
@@ -67,21 +75,21 @@ class Validation
   /// 
   /// Example :
   /// ```dart
-  /// valid.setRules(value, "required|max_length:50", { key : "email", label: "E-Mail"});
+  /// valid.setRules(value, "E-Mail", "required|max_length:50", { key : "email", indexForm: "0"});
   /// ```
   String setRules(String value, String label, String validations, {String key, int indexForm = 0})
   {
     var validation = validations.split('|');
 
-    var list = fieldsValidation.indexWhere((e) => e.key == key);
+    var list = _fieldsValidation.indexWhere((e) => e.key == key);
     
-    if(list == -1 || (list != -1 && fieldsValidation[list].validations == null))
+    if(list == -1 || (list != -1 && _fieldsValidation[list].validations == null))
     {
       var data          = new _FieldsValidations();
       data.key          = key;
       data.validations  = value;
       data.label        = label;
-      fieldsValidation.add(data);
+      _fieldsValidation.add(data);
     }
     
     Map<String, String> _fieldError = {};
@@ -97,7 +105,7 @@ class Validation
       var param = isParam.length > 1 ? isParam[1] : null;
       
       _fieldError[key] = value;
-      fields[indexForm] = _fieldError;
+      _fields[indexForm] = _fieldError;
 
       var isError = _isError(value, isParam[0], label, param, indexForm: indexForm);
       if(isError != null) return isError;
@@ -112,22 +120,22 @@ class Validation
   //   data.key        = key;
   //   data.controller = controller;
 
-  //   fieldsValidation.add(data);
+  //   _fieldsValidation.add(data);
   //   return controller;
   // }
   // TextEditingController getController(String key)
   // {
-  //   int index = fieldsValidation.indexWhere((e) => e.key == key);
+  //   int index = _fieldsValidation.indexWhere((e) => e.key == key);
   //   if(index != -1)
   //   {
-  //     return fieldsValidation[index].controller;
+  //     return _fieldsValidation[index].controller;
   //   }
   //   return null;
   // }
 
   String getText(String key, {int indexForm = 0})
   {
-    return fields[indexForm][key];
+    return _fields[indexForm][key];
   }
 
   Map<String, String> all({List<String> only, List<String> except, int indexForm = 0})
@@ -136,23 +144,23 @@ class Validation
     if(only != null && only.length > 0)
     {
       only.forEach((e) {
-        if(fields[indexForm].containsKey(e)) newFields[e] = fields[indexForm][e];
+        if(_fields[indexForm].containsKey(e)) newFields[e] = _fields[indexForm][e];
       });
       return newFields;
     }
     else if(only != null && except.length > 0)
     {
       except.forEach((e) {
-        if(fields[indexForm].containsKey(e)) newFields[e] = fields[indexForm][e];
+        if(_fields[indexForm].containsKey(e)) newFields[e] = _fields[indexForm][e];
       });
       return newFields;
     }
-    return fields[indexForm];
+    return _fields[indexForm];
   }
   
   String _isError(String value, String validation, String label, String param, {int indexForm = 0})
   {
-    var showError = formErrors.containsKey(validation) ? formErrors[validation] : formErrorsDefault[validation];
+    var showError = _formErrors.containsKey(validation) ? _formErrors[validation] : _formErrorsDefault[validation];
     switch(validation)
     {
       case "required":
@@ -205,7 +213,7 @@ class Validation
   }
   bool _isErrorSame(String value, String param, int indexForm)
   {
-    return value != fields[indexForm][param];
+    return value != _fields[indexForm][param];
   }
   bool _isErrorName(String value)
   {
@@ -273,9 +281,9 @@ class Validation
       }
       else if(kategori == 1)
       {
-        var list = fieldsValidation.indexWhere((e) => e.key == key);
+        var list = _fieldsValidation.indexWhere((e) => e.key == key);
         
-        replace = replace.replaceAll(new RegExp(r'{param}'), fieldsValidation[list].label);
+        replace = replace.replaceAll(new RegExp(r'{param}'), _fieldsValidation[list].label);
       }
     }
     return replace;
