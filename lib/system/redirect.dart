@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import '../system/request_data.dart';
-import '../system/arjunane.dart';
+import '../system/page.dart';
 import 'routers_services.dart';
 import 'routers.dart';
 import 'routers_animation.dart';
@@ -18,11 +18,11 @@ extension Redirect on NavigatorState {
   //   return Routers.getRoute(route);
   // }
 
-  static void route(BuildContext context, String route,
+  static void route(BuildContext context, String routeName,
       {RouterAnimationType type, Duration duration, Map<String, dynamic> withData }) {
-    var nextPage = Routers.app(route);
+    var nextPage = Routers.app(routeName);
 
-    RequestInit.currentPage = route;
+    RequestInit.currentPage = routeName;
     RequestInit.setPage(withData, isClear: true);
 
     // if (duration == null) duration = Duration(milliseconds: 200);
@@ -32,13 +32,13 @@ extension Redirect on NavigatorState {
     Navigator.pushAndRemoveUntil(context, redirect, (route) => false);
   }
 
-  static Future forward(BuildContext context, String route,
+  static Future forward(BuildContext context, String routeName,
       {RouterAnimationType type, Duration duration, Map<String, dynamic> withData }) async
   {
-    RequestInit.currentPage = route;
+    RequestInit.currentPage = routeName;
     RequestInit.setPage(withData, isClear: false);
 
-    var nextPage = Routers.getRoute(route,context);
+    var nextPage = Routers.getRoute(routeName,context);
 
     duration = _durationCheck(duration);
 
@@ -48,7 +48,7 @@ extension Redirect on NavigatorState {
 
   static Duration _durationCheck(Duration duration) => duration == null ? new Duration(milliseconds: 200) : duration;
 
-  static void onBackPress(Future<bool> Function() callback) => RoutersService.callbackOnBackPress = callback;
+  // static void onBackPress(Future<bool> Function() callback) => RoutersService.callbackOnBackPress = callback;
 
   static void back(BuildContext context, {RedirectData withData}) {
     Navigator.pop(context);
