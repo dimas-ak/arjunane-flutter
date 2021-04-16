@@ -155,10 +155,10 @@ class Validation
       });
       return newFields;
     }
-    else if(only != null && except.length > 0)
+    else if(except != null && except.length > 0)
     {
-      except.forEach((e) {
-        if(_fields.containsKey(e)) newFields[e] = _fields[e];
+      _fields.forEach((name, value) {
+        if(!except.contains(name)) newFields[name] = _fields[name];
       });
       return newFields;
     }
