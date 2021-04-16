@@ -53,7 +53,7 @@ class FormsRequest {
     _setNullRadio(name);
   }
 
-  void setNullValue(List<String> only, List<String> except) {
+  void setNullValue({List<String> only, List<String> except}) {
     if(only != null && only.length > 0) {
       only.forEach((name) {
         if(_formOpen.private.getValue.containsKey(name)) _setNull(name);
