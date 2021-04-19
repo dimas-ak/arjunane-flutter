@@ -64,7 +64,8 @@ class FormsWidget {
     bool isTextArea = false,
     TextInputType keyboardType = TextInputType.text, 
     void Function(String) onChanged,
-    Color colorIcon = FlatColors.v1White4
+    Color colorIcon = FlatColors.v1White4,
+    Widget suffixIcon
   }) {
     if(!_formOpen.private.inputController.containsKey(name)) { 
       _formOpen.private.formEnabled[name] = true;
@@ -94,7 +95,8 @@ class FormsWidget {
           ),
           floatingLabelBehavior: FloatingLabelBehavior.always, labelText: label,
           hintText: placeholder,
-          hintStyle: TextStyle(fontSize: 16)
+          hintStyle: TextStyle(fontSize: 16),
+          suffixIcon: suffixIcon
         )
       ))
       );
@@ -114,7 +116,8 @@ class FormsWidget {
       Function onTap,
       TextInputType keyboardType = TextInputType.datetime, 
       void Function(String) onChanged,
-      Color colorIcon = FlatColors.v1White4
+      Color colorIcon = FlatColors.v1White4,
+      Widget suffixIcon
     }) {
     
     if(!_formOpen.private.inputController.containsKey(name)) {
@@ -146,7 +149,8 @@ class FormsWidget {
           ),
           floatingLabelBehavior: FloatingLabelBehavior.always, labelText: label,
           hintText: placeholder,
-          hintStyle: TextStyle(fontSize: 16)
+          hintStyle: TextStyle(fontSize: 16),
+          suffixIcon: suffixIcon
         )
       ))
       );
@@ -165,6 +169,7 @@ class FormsWidget {
   }) {
     if(!_formOpen.private.formEnabled.containsKey(name)) {
       _formOpen.private.formEnabled[name] = true;
+      _formOpen.private.getSelectedDropdown[name] = value;
       _formOpen.private.getErrorDropdown[name] = false;
     }
     return _fmp.containerForm(optionalText, isRequired, icon, colorIcon, 
@@ -178,7 +183,7 @@ class FormsWidget {
           DropdownButtonFormField(
             hint: Text(label),
             disabledHint: Text(label),
-            value: !_modelForms.getFormsDropdown.containsKey(_keyForms) || !_modelForms.getFormsDropdown[_keyForms].containsKey(name) ? value : _modelForms.getFormsDropdown[_keyForms][name],
+            value: _fmp.getSelectedDropdown(name, items) ?? value,
             icon: Icon(Icons.arrow_downward),
             iconSize: 24,
             elevation: 16,
@@ -193,7 +198,7 @@ class FormsWidget {
               if(onChanged != null) onChanged(value);
               return null;
             }, 
-            items: !_modelForms.getEnabledForms.containsKey(_keyForms) || _modelForms.getEnabledForms[_keyForms] == true ? items : null,
+            items: _formOpen.private.formEnabled[name] ? items : null,
           )
       ]),)
     );
@@ -451,6 +456,11 @@ class FormsWidget {
         name : value
       }
     };
+  }
+
+  void setState(void Function() fn) {
+    fn();
+    Provider.of<ArjunaneModelForms>(context, listen: false).setEmpty = "";
   }
 
   void submit() {

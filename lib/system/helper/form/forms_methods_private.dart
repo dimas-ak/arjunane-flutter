@@ -34,6 +34,15 @@ class FormsMethodsPrivate {
     
   }
 
+  String getSelectedDropdown(String name, List<DropdownMenuItem<String>> items) {
+    String isFind;
+    String value = _formOpen.private.getSelectedDropdown[name];
+    items.forEach((element) {
+      if(value != null && element.value.contains(value)) isFind = element.value;
+    });
+    return isFind ?? null;
+  }
+
   bool enabledForm(String name) => _formOpen.private.formEnabled[name];
 
   bool getErrorDropdown(String name) => _formOpen.private.getErrorDropdown[name];

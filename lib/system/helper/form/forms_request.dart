@@ -15,7 +15,7 @@ class FormsRequest {
 
   _setNullDropdown(String name) => _formOpen.private.getSelectedDropdown.containsKey(name) ? _formOpen.private.getSelectedDropdown[name] = null : null;
   
-  _setNullInput(String name) => _formOpen.private.inputController.containsKey(name) ? _formOpen.private.inputController[name] = null : null;
+  _setNullInput(String name) => _formOpen.private.inputController.containsKey(name) ? _formOpen.private.inputController[name].clear() : null;
   
   _setNullCheckbox(String name) {
     if(_formOpen.private.isCheckboxRequired.containsKey(name)) {
