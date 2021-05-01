@@ -6,6 +6,7 @@ import '../../core/models/arjunane_model_forms.dart';
 import 'package:provider/provider.dart';
 import '../helper.dart';
 import 'forms_request.dart';
+import 'forms_validation_selected.dart';
 
 class FormOpen extends StatefulWidget {
 
@@ -29,6 +30,7 @@ class FormOpen extends StatefulWidget {
 class FormOpenState extends State<FormOpen> {
   
   FormsDataPrivate private = new FormsDataPrivate();
+  FormsValidationSelected _validSelected = new FormsValidationSelected();
 
   bool _isFirst = true;
   
@@ -61,7 +63,8 @@ class FormOpenState extends State<FormOpen> {
             widget.onInit, // on Init
             _isFirst,
             data,
-            widget.keyForms
+            widget.keyForms,
+            _validSelected
         ));
         },
       )

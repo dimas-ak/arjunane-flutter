@@ -8,7 +8,6 @@ import 'components_buttons_notifier_status.dart';
 
 class ButtonsNotifier {
 
-  final int milliseconds;
   final BuildContext context;
 
   final String _keys = Helper.randomString();
@@ -18,9 +17,9 @@ class ButtonsNotifier {
   String _successText;
   String _errorText;
 
-  ButtonsNotifier(this.context, {this.milliseconds});
+  ButtonsNotifier(this.context);
 
-  Widget setButton(String text, {Function onPressed, Function onLongPressed, String loadingText, String successText, String errorText}) {
+  Widget setButton(String text, {Function onPressed, Function onLongPressed, String loadingText, String successText, String errorText, bool enabled = true}) {
     _defaultText = text;
     _loadingText = loadingText;
     _successText = successText;
@@ -37,12 +36,12 @@ class ButtonsNotifier {
               backgroundColor: MaterialStateProperty.all(_colorButton(data[_keys]))
             ),
             key: ValueKey<ButtonsNotifierStatus>(data[_keys]),
-            onPressed: () {  
+            onPressed: !enabled && (data[_keys] == null || data[_keys] == ButtonsNotifierStatus.begin) ? null : () {  
               if((data[_keys] == null || data[_keys] == ButtonsNotifierStatus.begin) && onPressed != null) {
                 onPressed();
               }
             },
-            onLongPress: () {
+            onLongPress: !enabled && (data[_keys] == null || data[_keys] == ButtonsNotifierStatus.begin) ? null : () {
               if((data[_keys] == null || data[_keys] == ButtonsNotifierStatus.begin) && onLongPressed != null) {
                 onLongPressed();
               }

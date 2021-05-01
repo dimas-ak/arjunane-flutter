@@ -18,9 +18,8 @@ class FormsRequest {
   _setNullInput(String name) => _formOpen.private.inputController.containsKey(name) ? _formOpen.private.inputController[name].clear() : null;
   
   _setNullCheckbox(String name) {
-    if(_formOpen.private.isCheckboxRequired.containsKey(name)) {
+    if(_formOpen.private.getValue.containsKey(name)) {
       _formOpen.private.getValue[name] = false;
-      _formOpen.private.isCheckboxRequired[name] = false;
     }
   }
 
@@ -32,11 +31,7 @@ class FormsRequest {
   }
 
   _setNullCheckboxs(String name) {
-    if(_formOpen.private.checkboxsError.containsKey(name)) {
-      _formOpen.private.checkboxsError[name].isErrorRequired = false;
-      _formOpen.private.checkboxsError[name].isErrorMax = false;
-      _formOpen.private.checkboxsError[name].isErrorMin = false;
-      
+    if(_formOpen.private.getCheckboxs.containsKey(name)) {
       int i = 0;
       _formOpen.private.getCheckboxs[name].forEach((isChecked) {
         _formOpen.private.getCheckboxs[name][i] = false;

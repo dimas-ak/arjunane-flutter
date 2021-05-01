@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../../system/helper/form/forms_validation_selected.dart';
 import '../../../system/helper/components/components_labeled_radio.dart';
 import '../../../system/helper/form/forms_methods_private.dart';
 import 'package:provider/provider.dart';
@@ -9,7 +10,6 @@ import '../../../system/helper/form/forms.dart';
 import '../../library/validation.dart';
 import '../flat_colors.dart';
 import 'forms_checkbox_data.dart';
-import 'forms_checkboxs_error.dart';
 import 'forms_radio_data.dart';
 import 'forms_selected_radio.dart';
 
@@ -39,7 +39,9 @@ class FormsWidget {
 
   final ArjunaneModelForms _modelForms;
 
-  FormsWidget(this.context, this._globalKey, this._formOpen, this._onSubmit, this._onInit, this._isFirst, this._modelForms, this._keyForms) {
+  final FormsValidationSelected _validSelected;
+
+  FormsWidget(this.context, this._globalKey, this._formOpen, this._onSubmit, this._onInit, this._isFirst, this._modelForms, this._keyForms, this._validSelected) {
 
     assert(this._onSubmit != null, "The method 'onSubmit' is required at FormOpen.");
     _fmp = new FormsMethodsPrivate(this, _formOpen);
@@ -204,14 +206,12 @@ class FormsWidget {
     );
   }
 
-  Widget formCheckbox(String label, String name, {Function(bool) onChanged, String optionalText, bool isRequired = true, IconData icon, Color colorIcon, String errorMessage}) {
-    
-    errorMessage = errorMessage ?? "Harap centang Checkbox diatas.";
+  Widget formCheckbox(String label, String name, {Function(bool) onChanged, String optionalText, bool isRequired = true, IconData icon, Color colorIcon, String validations}) {
 
-    if(!_formOpen.private.isCheckboxRequired.containsKey(name)) {
-      if(isRequired)_formOpen.private.isCheckboxRequired[name] = isRequired;
-      _formOpen.private.getErrorCheckbox[name] = false;
+    if(!_formOpen.private.isErrorForm.containsKey(name)) {
+      _formOpen.private.isErrorForm[name] = false;
       _formOpen.private.formEnabled[name] = true;
+      _validSelected.setRulesSingleCheck(name, validations, label);
     }
     
     return _fmp.containerForm(optionalText, isRequired, icon, colorIcon, 
@@ -225,7 +225,7 @@ class FormsWidget {
                 width: 24,
                 height: 24,
                 child: Checkbox(
-                  fillColor: MaterialStateProperty.all(isRequired && _fmp.getErrorCheckbox(name) ? FlatColors.googleRed : null),
+                  fillColor: MaterialStateProperty.all(_formOpen.private.isErrorForm[name] ? FlatColors.googleRed : null),
                   value: getCheckbox(name), 
                   onChanged: !_fmp.enabledForm(name) ? null : (bool changed) {
                     setCheckbox(name, changed);
@@ -238,7 +238,7 @@ class FormsWidget {
             ],
           ),
           
-          if(isRequired && _fmp.getErrorCheckbox(name)) Text(errorMessage, style: TextStyle(color: FlatColors.googleRed))
+          if(_formOpen.private.isErrorForm[name]) Text(_validSelected.getError(name), style: TextStyle(color: FlatColors.googleRed))
         ],
       )
     );
@@ -250,36 +250,19 @@ class FormsWidget {
     String optionalText, 
     bool isRequired = true, 
     IconData icon, 
-    Color colorIcon, 
-    String errorMessageRequired, 
+    Color colorIcon,
     String label,
-    int maxChecked,
-    int minChecked,
-    String errorMessageMaxChecked,
-    String errorMessageMinChecked
+    String validations
   }) {
 
     assert(labels != null || labels.length != 0, "The property 'labels' is required");
-    
-    errorMessageRequired = errorMessageRequired ?? "Harap centang Checkbox diatas.";
 
-    errorMessageMaxChecked = errorMessageMaxChecked ?? "Maksimal yang dicentang ialah $maxChecked.";
-    
-    errorMessageMinChecked = errorMessageMinChecked ?? "Minimal yang dicentang ialah $minChecked.";
-
-    if(!_formOpen.private.checkboxsError.containsKey(name)) {
-      _formOpen.private.checkboxsError[name] = new  FormsCheckboxsError(
-        isErrorRequired: false,
-        isErrorMax: false,
-        isErrorMin: false,
-        isSubmited: false,
-        isRequired: isRequired,
-        isMax: maxChecked != null ? true : false,
-        isMin: minChecked != null ? true : false,
-        max : maxChecked != null ? maxChecked : -1,
-        min: minChecked != null ? minChecked : -1,
-      );
+    print("apakah ini ter-eksekusi : ${_formOpen.private.isErrorForm[name]} || $name");
+    if(!_formOpen.private.isErrorForm.containsKey(name)) {
+      _formOpen.private.isErrorForm[name] = false;
       _formOpen.private.formEnabled[name] = true;
+      
+      _validSelected.setRulesMultiCheck(name, validations, label ?? name, labels.length);
 
       List<bool> dataChecked = [];
       labels.forEach((element) {
@@ -287,8 +270,6 @@ class FormsWidget {
       });
       _formOpen.private.getCheckboxs[name] = dataChecked;
     }
-    
-    var getError = _fmp.getErrorCheckboxs(name);
 
     return _fmp.containerForm(optionalText, isRequired, icon, colorIcon, 
       child: Column(
@@ -306,7 +287,7 @@ class FormsWidget {
                   width: 24,
                   height: 24,
                   child: Checkbox(
-                    fillColor: MaterialStateProperty.all(getError.isSubmited && (getError.isErrorRequired || getError.isErrorMin || getError.isErrorMax) ? FlatColors.googleRed : null),
+                    fillColor: MaterialStateProperty.all(_formOpen.private.isErrorForm[name] ? FlatColors.googleRed : null),
                     value: _fmp.getCheckedCheckboxs(name)[i], 
                     onChanged: !_fmp.enabledForm(name) ? null : (bool changed) {
 
@@ -321,9 +302,7 @@ class FormsWidget {
             )
           ),
           
-          if(getError.isSubmited && getError.isErrorRequired) Text(errorMessageRequired, style: TextStyle(color: FlatColors.googleRed)),
-          if(getError.isSubmited && getError.isErrorMax) Text(errorMessageMaxChecked, style: TextStyle(color: FlatColors.googleRed)),
-          if(getError.isSubmited && getError.isErrorMin) Text(errorMessageMinChecked, style: TextStyle(color: FlatColors.googleRed)),
+          if(_formOpen.private.isErrorForm[name]) Text(_validSelected.getError(name), style: TextStyle(color: FlatColors.googleRed))
         ],
       )
     );
@@ -334,16 +313,14 @@ class FormsWidget {
   ///   "Kerja Rodi"  : "kr",
   ///   "Kerja Kuli"  : "kl"
   /// }
-  Widget formRadio(String name, {@required List<FormRadioData> values, String label, Function(String, String) onChanged, String optionalText, bool isRequired = true, IconData icon, Color colorIcon, String errorMessage}) {
+  Widget formRadio(String name, {@required List<FormRadioData> values, String label, Function(String, String) onChanged, String optionalText, bool isRequired = true, IconData icon, Color colorIcon, String validations}) {
     assert(values != null || values.length != 0, "The property 'values' is required");
-
-    errorMessage = errorMessage ?? "Harap pilih Pilihan diatas.";
-
+    print(_formOpen.private.isErrorForm);
+    print("apakah ini ter-eksekusi : ${_formOpen.private.isErrorForm[name]} || $name");
     if(!_formOpen.private.getCheckedRadio.containsKey(name)) {
-      if(isRequired) _formOpen.private.isRadioRequired[name] = isRequired;
-      
-      _formOpen.private.getErrorRadio[name] = false;
+      _formOpen.private.isErrorForm[name] = false;
       _formOpen.private.formEnabled[name] = true;
+      _validSelected.setRulesRadio(name, validations, label ?? name);
 
       _formOpen.private.getCheckedRadio[name] = new FormsSelectedRadio(
           isChecked: false,
@@ -356,11 +333,11 @@ class FormsWidget {
       children: [
         if(label != null) Text(label),
         for(var val in values) LabeledRadio(
-            fillColor: MaterialStateProperty.all(isRequired && _fmp.getErrorRadio(name) ? FlatColors.googleRed : null),
+            fillColor: MaterialStateProperty.all(_formOpen.private.isErrorForm[name] ? FlatColors.googleRed : null),
             groupValue: getRadio(name).value, 
             label: val.label, 
             onChanged: !_fmp.enabledForm(name) ? null : (String newValue) {
-              _formOpen.private.getErrorRadio[name] = false;
+              _formOpen.private.isErrorForm[name] = false;
               setRadio(name, newValue);
               if(onChanged != null) onChanged(name, newValue);
             }, 
@@ -379,7 +356,7 @@ class FormsWidget {
         //   );
         // }) 
         
-        if(isRequired && _fmp.getErrorRadio(name) ) Text(errorMessage, style: TextStyle(color: FlatColors.googleRed))
+        if(_formOpen.private.isErrorForm[name] ) Text(_validSelected.getError(name), style: TextStyle(color: FlatColors.googleRed))
       ],
     ) );
   }
@@ -413,6 +390,8 @@ class FormsWidget {
   } 
 
   void setRadio(String name, String value) {
+    _formOpen.private.isErrorForm[name] = false;
+    _validSelected.updateValueRadio(name, value);
     _formOpen.private.getValue[name] = value;
     _formOpen.private.getCheckedRadio[name] = new FormsSelectedRadio(isChecked: true, name: name, value: value);
     Provider.of<ArjunaneModelForms>(context, listen: false).changeRadio = {
@@ -438,18 +417,29 @@ class FormsWidget {
     return new FormsCheckboxData(checked: {}, unchecked: {});
   }
 
+  set setLanguageValidation(String language) {
+    _valid.setLanguageValidation = language;
+    _validSelected.setLanguageValidation = language;
+  }
+
   void setCheckboxs(String name, Map<int, bool> index) {
+    _formOpen.private.isErrorForm[name] = false;
     _formOpen.private.getValue[name] = _formOpen.private.getCheckboxs[name];
     _fmp.setNullErrorCheckboxs(name);
-    index.forEach((index, value) => _formOpen.private.getCheckboxs[name][index] = value );
+    index.forEach((index, value) { 
+      _validSelected.updateValueMultiCheck(name, index, value);
+      _formOpen.private.getCheckboxs[name][index] = value;
+    });
     Provider.of<ArjunaneModelForms>(context, listen: false).setEmpty = "";
   }
 
   bool getCheckbox(String name) => _formOpen.private.getValue.containsKey(name) ? _formOpen.private.getValue[name] : false;
   
   void setCheckbox(String name, bool value) {
+    _formOpen.private.isErrorForm[name] = false;
+    _validSelected.updateValueSingleCheck(name, value);
     _formOpen.private.getValue[name] = value;
-    _formOpen.private.isCheckboxRequired[name] = false;
+    
     Provider.of<ArjunaneModelForms>(context, listen: false).changeCheckbox = { 
       _keyForms : 
       {
@@ -466,44 +456,39 @@ class FormsWidget {
   void submit() {
     bool isValid = true;
     
-    _formOpen.private.isCheckboxRequired.forEach((name, isRequired) {
-      if(isRequired && !getCheckbox(name)) {
-        isValid = false;
-        //_setErrorCheckbox(name, true);
-        _formOpen.private.getErrorCheckbox[name] = true;
-        return;
-      }
-      else {
-        //_setErrorCheckbox(name, false);
-        _formOpen.private.getErrorCheckbox[name] = false;
-      }
+    _formOpen.private.isErrorForm.forEach((name, value) {
+      var getError = _validSelected.getError(name);
+      if(getError != null) isValid = false;
+      _formOpen.private.isErrorForm[name] = getError != null;
+      print("Value dari isFormError : ${_formOpen.private.isErrorForm[name]} || $name");
     });
-    _formOpen.private.isRadioRequired.forEach((name, value) {
-      var form = _formOpen.private.getCheckedRadio[name];
-      if(!form.isChecked) {
-        isValid = false;
-        _formOpen.private.getErrorRadio[name] = true;
-        //_setErrorRadio(name, true);
-        return;
-      }
-      else { 
-        _formOpen.private.getErrorRadio[name] = false;
-        //_setErrorRadio(name, false);
-      }
-    });
-
-    _formOpen.private.getCheckboxs.forEach((name, value) {
-
-      var getValidation = _formOpen.private.checkboxsError[name];
-      getValidation.isSubmited = true;
-      _fmp.setNullErrorCheckboxs(name);
-
-      if(getValidation.isRequired && getCheckboxs(name).checked.length == 0) _formOpen.private.checkboxsError[name].isErrorRequired = true;
-      else if(getValidation.isMin && getValidation.min > getCheckboxs(name).checked.length) _formOpen.private.checkboxsError[name].isErrorMin = true;
-      else if(getValidation.isMax && getCheckboxs(name).checked.length > getValidation.max) _formOpen.private.checkboxsError[name].isErrorMax = true;
-    });
-
-    if(!isValid) Provider.of<ArjunaneModelForms>(context, listen: false).setEmpty = "Mencoba";
+    // _formOpen.private.isCheckboxRequired.forEach((name, isRequired) {
+    //   if(isRequired && !getCheckbox(name)) {
+    //     isValid = false;
+    //     //_setErrorCheckbox(name, true);
+    //     _formOpen.private.getErrorCheckbox[name] = true;
+    //     return;
+    //   }
+    //   else {
+    //     //_setErrorCheckbox(name, false);
+    //     _formOpen.private.getErrorCheckbox[name] = false;
+    //   }
+    // });
+    // _formOpen.private.isRadioRequired.forEach((name, value) {
+    //   var form = _formOpen.private.getCheckedRadio[name];
+    //   if(!form.isChecked) {
+    //     isValid = false;
+    //     _formOpen.private.getErrorRadio[name] = true;
+    //     //_setErrorRadio(name, true);
+    //     return;
+    //   }
+    //   else { 
+    //     _formOpen.private.getErrorRadio[name] = false;
+    //     //_setErrorRadio(name, false);
+    //   }
+    // });
+    
+    if(!isValid) {Provider.of<ArjunaneModelForms>(context, listen: false).setEmpty = "Mencoba";}
 
     _formOpen.private.validate = isValid && _globalKey.currentState.validate();
     

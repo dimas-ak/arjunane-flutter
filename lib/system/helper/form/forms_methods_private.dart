@@ -4,8 +4,6 @@ import '../../../system/core/models/arjunane_model_forms.dart';
 import '../../../system/helper/form/forms_widget.dart';
 import 'package:provider/provider.dart';
 
-import 'forms_checkboxs_error.dart';
-
 class FormsMethodsPrivate {
 
   final FormsWidget _formsWidget;
@@ -47,30 +45,26 @@ class FormsMethodsPrivate {
 
   bool getErrorDropdown(String name) => _formOpen.private.getErrorDropdown[name];
 
-  bool getErrorCheckbox(String name) => _formOpen.private.getErrorCheckbox[name];
   void setErrorCheckbox(String name, bool value) {
-    _formOpen.private.getErrorCheckbox[name] = value;
+    _formOpen.private.isErrorForm[name] = value;
     Provider.of<ArjunaneModelForms>(_formOpen.context, listen: false).changeErrorCheckbox = {
       _formsWidget.getKeyForms : {
         name : value
       }
     };
   }
-  bool getErrorRadio(String name) => _formOpen.private.getErrorRadio[name];
+  
   void setErrorRadio(String name, bool value) {
-    _formOpen.private.getErrorRadio[name] = value;
+    _formOpen.private.isErrorForm[name] = value;
     Provider.of<ArjunaneModelForms>(_formOpen.context, listen: false).changeErrorRadio = {
       _formsWidget.getKeyForms : {
         name : value
       }
     };
   }
-  FormsCheckboxsError getErrorCheckboxs(String name) => _formOpen.private.checkboxsError[name];
 
   void setNullErrorCheckboxs(String name) {
-    _formOpen.private.checkboxsError[name].isErrorRequired = false;
-    _formOpen.private.checkboxsError[name].isErrorMax = false;
-    _formOpen.private.checkboxsError[name].isErrorMin = false;
+    _formOpen.private.isErrorForm[name] = false;
   }
 
   List<bool> getCheckedCheckboxs(String name) => _formOpen.private.getCheckboxs.containsKey(name) ? _formOpen.private.getCheckboxs[name] : [];
