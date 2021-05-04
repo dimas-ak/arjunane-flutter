@@ -1,4 +1,4 @@
-class ValiationMessage {
+class ValidationMessage {
   static final Map<String, Map<String, String>> validationMessages = {
     "id" : {
       "in" :                 "{field} tidak valid.",
@@ -40,4 +40,6 @@ class ValiationMessage {
       "alpha_numeric_dash" : "{field} hanya boleh diisi dengan Alphabet, Angka dan Garis.",
     }
   };
+
+  static final String validationMessageId = "id";
 }

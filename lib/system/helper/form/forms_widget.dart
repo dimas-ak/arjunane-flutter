@@ -257,7 +257,6 @@ class FormsWidget {
 
     assert(labels != null || labels.length != 0, "The property 'labels' is required");
 
-    print("apakah ini ter-eksekusi : ${_formOpen.private.isErrorForm[name]} || $name");
     if(!_formOpen.private.isErrorForm.containsKey(name)) {
       _formOpen.private.isErrorForm[name] = false;
       _formOpen.private.formEnabled[name] = true;
@@ -315,8 +314,7 @@ class FormsWidget {
   /// }
   Widget formRadio(String name, {@required List<FormRadioData> values, String label, Function(String, String) onChanged, String optionalText, bool isRequired = true, IconData icon, Color colorIcon, String validations}) {
     assert(values != null || values.length != 0, "The property 'values' is required");
-    print(_formOpen.private.isErrorForm);
-    print("apakah ini ter-eksekusi : ${_formOpen.private.isErrorForm[name]} || $name");
+    
     if(!_formOpen.private.getCheckedRadio.containsKey(name)) {
       _formOpen.private.isErrorForm[name] = false;
       _formOpen.private.formEnabled[name] = true;
@@ -460,7 +458,6 @@ class FormsWidget {
       var getError = _validSelected.getError(name);
       if(getError != null) isValid = false;
       _formOpen.private.isErrorForm[name] = getError != null;
-      print("Value dari isFormError : ${_formOpen.private.isErrorForm[name]} || $name");
     });
     // _formOpen.private.isCheckboxRequired.forEach((name, isRequired) {
     //   if(isRequired && !getCheckbox(name)) {
@@ -508,7 +505,10 @@ class FormsWidget {
 
   bool get getEnabled => !_modelForms.getEnabledForms.containsKey(_keyForms) ? true : _modelForms.getEnabledForms[_keyForms];
 
-  void setErrorMessageInput(String name, String text) => _valid.setErrorMessage(name, text);
+  void setErrorMessage(String name, String text) {
+    _valid.setErrorMessage(name, text);
+    _validSelected.setErrorMessage(name, text);
+  }
 
   FormsWidget get formWidget => _formWidget;
 
@@ -530,5 +530,5 @@ class FormsWidget {
     });
   }
 
-  static FormsWidget form(FormsWidget formWidget) => formWidget;
+  static FormsWidget form(FormsWidget formWidgetOther) => formWidgetOther;
 }

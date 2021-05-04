@@ -10,16 +10,25 @@ class FormsValidationSelected {
 
   Map<String, String> _formErrors = {};
 
-  FormsValidationSelected() {
-    print("Mencoba apakah ini constructor ter-eksekusi");
-  }
-
-  String _languageValidation = "id";
+  String _languageValidation = ValidationMessage.validationMessageId;
   
   set setLanguageValidation(String language) {
-    if(ValiationMessage.validationMessages.containsKey(language)) {
+    if(ValidationMessage.validationMessages.containsKey(language)) {
       _languageValidation = language;
     }
+  }
+  
+  /// Parameters
+  /// * name ex : required
+  /// * text : The {field} is required
+  ///
+  /// Example :
+  /// ```dart
+  /// valid.setErrorMessage("gt", "The {field} must greater than {param}.");
+  /// ```
+  void setErrorMessage(String name, String text)
+  {
+    _formErrors[name] = text;
   }
 
   dynamic _getList(String name) {
@@ -71,7 +80,7 @@ class FormsValidationSelected {
   }
 
   String _errorMessage(String name, String label, String validation, {String param}) {
-    var showError = _formErrors.containsKey(validation) ? _formErrors[validation] : ValiationMessage.validationMessages[_languageValidation][validation];
+    var showError = _formErrors.containsKey(validation) ? _formErrors[validation] : ValidationMessage.validationMessages[_languageValidation][validation];
     return param != null ? _updateMessageError(showError, label, kategori: 1, param: param) : _updateMessageError(showError, label ?? name);
   }
 

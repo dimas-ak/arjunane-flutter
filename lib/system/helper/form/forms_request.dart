@@ -40,6 +40,11 @@ class FormsRequest {
     }
   }
 
+  void setState(void Function() fn) {
+    fn();
+    Provider.of<ArjunaneModelForms>(_formOpen.context, listen: false).setEmpty = "";
+  }
+  
   _setNull(String name) {
     _setNullCheckbox(name);
     _setNullCheckboxs(name);

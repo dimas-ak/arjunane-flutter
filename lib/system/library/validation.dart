@@ -16,10 +16,10 @@ class Validation
 
   Map<String, String> _formErrors = {};
 
-  String _languageValidation = "id";
+  String _languageValidation = ValidationMessage.validationMessageId;
 
   set setLanguageValidation(String language) {
-    if(ValiationMessage.validationMessages.containsKey(language)) {
+    if(ValidationMessage.validationMessages.containsKey(language)) {
       _languageValidation = language;
     }
   }
@@ -141,7 +141,7 @@ class Validation
   
   String _isError(String value, String validation, String label, String param)
   {
-    var showError = _formErrors.containsKey(validation) ? _formErrors[validation] : ValiationMessage.validationMessages[_languageValidation][validation];
+    var showError = _formErrors.containsKey(validation) ? _formErrors[validation] : ValidationMessage.validationMessages[_languageValidation][validation];
     switch(validation)
     {
       case "required":
