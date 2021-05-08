@@ -1,6 +1,8 @@
 import 'models/arjunane_model_alerts_widget.dart';
 import 'models/arjunane_model_buttons_notifier.dart';
 import 'models/arjunane_model_forms.dart';
+import 'models/theme_core_model.dart';
+
 
 import 'request_data.dart';
 import 'package:provider/provider.dart';
@@ -58,14 +60,20 @@ class Routers
     providers.add(ChangeNotifierProvider(create: (BuildContext context) => ArjunaneModelAlertsWidget()));
     providers.add(ChangeNotifierProvider(create: (BuildContext context) => ArjunaneModelButtonsNotifier()));
     providers.add(ChangeNotifierProvider(create: (BuildContext context) => ArjunaneModelForms()));
+    providers.add(ChangeNotifierProvider(create: (BuildContext context) => ThemeCoreModel()));
     
     //var page = getRoute(route);
     return MultiProvider(
       providers: providers,
-      child: MaterialApp(
-        initialRoute: route,
-        // routes: RoutersService.routes(),
-        onGenerateRoute: RoutersService.onGenerateRoute,
+      child: Consumer<ThemeCoreModel>(
+        builder: (ctx, data, _) {
+          return MaterialApp(
+            theme: data.themeData,
+            initialRoute: route,
+            // routes: RoutersService.routes(),
+            onGenerateRoute: RoutersService.onGenerateRoute,
+          );
+        },
       )
     );
   }
