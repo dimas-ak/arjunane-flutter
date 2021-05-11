@@ -3,7 +3,6 @@ import 'routers.dart';
 import '../../app/config/configs.dart';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 
 import 'app.dart';
 
@@ -25,7 +24,6 @@ class RoutersService
   static void run(String route)
   {
     if(route == null) route = Configs.baseRoute;
-    SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
     runApp(new App(baseRoute: route));
   }
 
