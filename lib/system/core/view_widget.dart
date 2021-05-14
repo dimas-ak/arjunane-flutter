@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
-import 'package:my_flutters/system/arjunane.dart';
-import 'package:my_flutters/system/core/models/arjunane_model_view_widget.dart';
-import 'package:my_flutters/system/core/view_widget_event.dart';
+import '../helper/helper.dart';
+import 'models/arjunane_model_view_widget.dart';
+import 'view_widget_event.dart';
 import 'package:provider/provider.dart';
 
 class ViewWidget extends StatefulWidget {

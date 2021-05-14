@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
-import 'package:my_flutters/system/arjunane.dart';
-import 'package:my_flutters/system/core/models/arjunane_model_view_widget.dart';
+import '../helper/helper.dart';
+import 'models/arjunane_model_view_widget.dart';
 import 'package:provider/provider.dart';
 
 class ViewWidgetEvent {
