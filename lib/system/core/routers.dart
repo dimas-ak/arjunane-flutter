@@ -3,7 +3,6 @@ import 'models/arjunane_model_buttons_notifier.dart';
 import 'models/arjunane_model_forms.dart';
 import 'models/theme_core_model.dart';
 import 'models/arjunane_model_expand_panel.dart';
-import 'models/arjunane_model_dropdown_view.dart';
 import 'models/arjunane_model_view_widget.dart';
 
 
@@ -62,7 +61,6 @@ class Routers
     providers.add(ChangeNotifierProvider(create: (BuildContext context) => ArjunaneModelAlertsNotifier()));
     providers.add(ChangeNotifierProvider(create: (BuildContext context) => ArjunaneModelAlertsWidget()));
     providers.add(ChangeNotifierProvider(create: (BuildContext context) => ArjunaneModelButtonsNotifier()));
-    providers.add(ChangeNotifierProvider(create: (BuildContext context) => ArjunaneModelDropdownView()));
     providers.add(ChangeNotifierProvider(create: (BuildContext context) => ArjunaneModelExpandPanel()));
     providers.add(ChangeNotifierProvider(create: (BuildContext context) => ArjunaneModelForms()));
     providers.add(ChangeNotifierProvider(create: (BuildContext context) => ArjunaneModelViewWidget()));
