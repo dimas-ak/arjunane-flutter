@@ -84,6 +84,7 @@ class FormsWidget {
         readOnly: readonly,
         validator: (value) {
           _formOpen.private.getValue[name] = value;
+          print("Value dari input : ${_formOpen.private.getValue}");
           return validations != null ? _valid.setRules(value, label, validations, name: name) : null;
         },
         style: TextStyle(fontSize: 16),
@@ -485,6 +486,7 @@ class FormsWidget {
     //   }
     // });
     
+
     if(!isValid) {Provider.of<ArjunaneModelForms>(context, listen: false).setEmpty = "Mencoba";}
 
     _formOpen.private.validate = isValid && _globalKey.currentState.validate();

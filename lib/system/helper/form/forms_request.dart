@@ -73,7 +73,7 @@ class FormsRequest {
   }
   
   Map<String, dynamic> all({List<String> only, List<String> except}) {
-    Map<String, dynamic> newFields = new Map<String, dynamic>();
+    Map<String, dynamic> newFields = {};
     if(only != null && only.length > 0)
     {
       only.forEach((e) {

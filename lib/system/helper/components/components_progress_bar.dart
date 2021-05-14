@@ -11,7 +11,6 @@ class ProgressBar extends StatelessWidget {
   final TextStyle textBottomStyle;
   final String textBottom;
   final String textTop;
-  final int duration;
   final Color colorBar;
 
   ProgressBar({
@@ -23,7 +22,6 @@ class ProgressBar extends StatelessWidget {
     this.textBottomStyle,
     this.textTop,
     this.textTopStyle,
-    this.duration,
     this.colorBar
   }) : super(key: key);
 
@@ -70,7 +68,7 @@ class ProgressBar extends StatelessWidget {
                             bottom:0,
                             width: calc,
                             child: Container(
-                            color: FlatColors.googleBlue
+                            color: colorBar ?? FlatColors.googleBlue
                           ))
                         ],
                       );

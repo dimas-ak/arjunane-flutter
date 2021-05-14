@@ -19,6 +19,7 @@ export '../system/library/validation.dart';
 
 // system
 export 'core/model.dart';
+export 'core/view_widget.dart';
 export '../system/core/page.dart';
 export '../system/core/redirect.dart';
 export '../system/core/request.dart';
