@@ -102,7 +102,7 @@ Widget showLoadingWidget({String message = "Sedang diproses ...", Color color = 
           valueColor: AlwaysStoppedAnimation(color)
         ),
         SizedBox(height: 20),
-        Text("Sedang di proses...", textAlign: TextAlign.center,)
+        Text(message, textAlign: TextAlign.center,)
       ]),
     );
 }

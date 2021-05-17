@@ -116,7 +116,7 @@ class CommandsController extends Command {
 
     if(view != null) {
 
-      var fileNamesView = view.split("_");
+      var fileNamesView = view.split("/").last.split("_");
 
       fileNamesView.forEach( (val) {
         // mengubah huruf pertama atau mengubah huruf pertama setelah underscore menjadi besar
