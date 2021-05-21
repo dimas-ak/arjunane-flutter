@@ -50,7 +50,7 @@ class FormsValidationSelected {
     data.isError = false;
     data.name = name;
     data.validations = validations;
-    data.label = label ?? "";
+    data.label = label;
     _fieldsValidationSingleCheck.add(data);
   }
 
@@ -61,7 +61,7 @@ class FormsValidationSelected {
     data.isError = false;
     data.name = name;
     data.validations = validations;
-    data.label = label ?? "";
+    data.label = label;
     _fieldsValidationRadio.add(data);
   }
 
@@ -75,7 +75,7 @@ class FormsValidationSelected {
     data.isError = false;
     data.name = name;
     data.validations = validations;
-    data.label = label ?? "";
+    data.label = label;
     _fieldsValidationMultiCheck.add(data);
   }
 

@@ -77,7 +77,7 @@ class _ExpandPanel extends State<ExpandPanel> with TickerProviderStateMixin {
                   Expanded(
                     child:Padding(
                       padding: EdgeInsets.all(10), 
-                      child:  widget.header ?? Container())
+                      child:  widget.header)
                   ),
                   SizedBox(width: 10),
                   InkWell(
@@ -103,7 +103,7 @@ class _ExpandPanel extends State<ExpandPanel> with TickerProviderStateMixin {
                 clipBehavior: Clip.hardEdge,
                 decoration: BoxDecoration(border: Border.all(width: 0, color: Colors.transparent)),
                 height: widget.property.isExpanded! ? null : 0,
-                child: Transform.scale(scale: widget.property.isExpanded! ? 1 : 0, child: widget.body ?? Container())
+                child: Transform.scale(scale: widget.property.isExpanded! ? 1 : 0, child: widget.body)
               )
             ],
           )
