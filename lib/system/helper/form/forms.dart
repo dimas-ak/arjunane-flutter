@@ -14,13 +14,13 @@ class FormOpen extends StatefulWidget {
 
   final void Function(FormsRequest) onSubmit;
 
-  final void Function(FormsWidget) onInit;
+  final void Function(FormsWidget)? onInit;
 
   final globalKey = GlobalKey<FormState>();
 
   final String keyForms = Helper.randomString();
 
-  FormOpen({@required this.child, @required this.onSubmit, this.onInit, Key key}) : super(key: key);
+  FormOpen({required this.child, required this.onSubmit, this.onInit, Key? key}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() => FormOpenState();
@@ -36,7 +36,7 @@ class FormOpenState extends State<FormOpen> {
   
   @override
   void initState() {
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+    WidgetsBinding.instance!.addPostFrameCallback((timeStamp) {
       _isFirst = false;
     });
     super.initState();

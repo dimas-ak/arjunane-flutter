@@ -15,7 +15,7 @@ class FormsRequest {
 
   _setNullDropdown(String name) => _formOpen.private.getSelectedDropdown.containsKey(name) ? _formOpen.private.getSelectedDropdown[name] = null : null;
   
-  _setNullInput(String name) => _formOpen.private.inputController.containsKey(name) ? _formOpen.private.inputController[name].clear() : null;
+  _setNullInput(String name) => _formOpen.private.inputController.containsKey(name) ? _formOpen.private.inputController[name]!.clear() : null;
   
   _setNullCheckbox(String name) {
     if(_formOpen.private.getValue.containsKey(name)) {
@@ -33,8 +33,8 @@ class FormsRequest {
   _setNullCheckboxs(String name) {
     if(_formOpen.private.getCheckboxs.containsKey(name)) {
       int i = 0;
-      _formOpen.private.getCheckboxs[name].forEach((isChecked) {
-        _formOpen.private.getCheckboxs[name][i] = false;
+      _formOpen.private.getCheckboxs[name]!.forEach((isChecked) {
+        _formOpen.private.getCheckboxs[name]![i] = false;
         i++;
       });
     }
@@ -53,7 +53,7 @@ class FormsRequest {
     _setNullRadio(name);
   }
 
-  void setNullValue({List<String> only, List<String> except}) {
+  void setNullValue({List<String>? only, List<String>? except}) {
     if(only != null && only.length > 0) {
       only.forEach((name) {
         if(_formOpen.private.getValue.containsKey(name)) _setNull(name);
@@ -72,7 +72,7 @@ class FormsRequest {
     Provider.of<ArjunaneModelForms>(_formOpen.context, listen: false).setEmpty = "";
   }
   
-  Map<String, dynamic> all({List<String> only, List<String> except}) {
+  Map<String, dynamic> all({List<String>? only, List<String>? except}) {
     Map<String, dynamic> newFields = {};
     if(only != null && only.length > 0)
     {
@@ -91,9 +91,9 @@ class FormsRequest {
     return _formOpen.private.getValue;
   }
   
-  bool get validate => _formOpen.private.validate;
+  bool? get validate => _formOpen.private.validate;
 
-  void setEnabled(bool enabled, {List<String> only, List<String> except}) { 
+  void setEnabled(bool enabled, {List<String>? only, List<String>? except}) { 
     if(only != null && only.length > 0) {
       only.forEach((name) {
         if(_formOpen.private.formEnabled.containsKey(name))_formOpen.private.formEnabled[name] = enabled;

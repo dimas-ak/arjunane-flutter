@@ -6,13 +6,13 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class ThemeCoreModel extends ChangeNotifier {
 
-  ThemeData _themeData;
+  ThemeData? _themeData;
 
-  ThemeData get themeData => _themeData;
+  ThemeData? get themeData => _themeData;
 
   ThemeCoreModel() {
     SharedPreferences.getInstance().then((value) {
-      _themeData = themeCustom[!value.containsKey(ThemeCoreProperty.themeKey) ? ThemeCoreProperty.defaultThemeName : value.getString(ThemeCoreProperty.themeKey)];
+      _themeData = themeCustom[!value.containsKey(ThemeCoreProperty.themeKey) ? ThemeCoreProperty.defaultThemeName : value.getString(ThemeCoreProperty.themeKey)!];
       notifyListeners();
     });
   }

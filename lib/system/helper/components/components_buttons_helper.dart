@@ -5,16 +5,16 @@ import '../flat_colors.dart';
 import 'components_type_style.dart';
 
 class ButtonsHelper {
-  final Color textColor;
-  final Color backgroundColor;
-  final Color disabledTextColor;
-  final Color disabledBackgroundColor;
+  final Color? textColor;
+  final Color? backgroundColor;
+  final Color? disabledTextColor;
+  final Color? disabledBackgroundColor;
 
-  final Color borderColorOutline;
+  final Color? borderColorOutline;
   ButtonsHelper({this.textColor, this.backgroundColor, this.disabledTextColor, this.disabledBackgroundColor, this.borderColorOutline});
 
-  static ButtonsHelper getStyleButton(TypeStyle style) {
-    ButtonsHelper button;
+  static ButtonsHelper? getStyleButton(TypeStyle? style) {
+    ButtonsHelper? button;
     // style primary
     if(style == TypeStyle.primary) button = new ButtonsHelper(
         textColor: Colors.white,

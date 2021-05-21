@@ -9,14 +9,14 @@ class ExpandPanel extends StatefulWidget {
 
   final Widget header;
   final Widget body;
-  final Key key;
-  final bool Function() expanded;
-  final void Function(bool) onChanged;
+  final Key? key;
+  final bool Function()? expanded;
+  final void Function(bool?)? onChanged;
 
   ExpandPanel({
     this.key,
-    @required this.header,
-    @required this.body,
+    required this.header,
+    required this.body,
     this.onChanged,
     this.expanded
   }) : super(key: key);
@@ -33,19 +33,19 @@ class ExpandPanel extends StatefulWidget {
 
 class _ExpandPanel extends State<ExpandPanel> with TickerProviderStateMixin {
 
-  AnimationController controller;
-  AnimationController controllerScale;
-  Animation<double> animationScale;
+  late AnimationController controller;
+  late AnimationController controllerScale;
+  Animation<double>? animationScale;
 
   @override
   void initState() {
 
-    if(widget.expanded != null) widget.expanded();
+    if(widget.expanded != null) widget.expanded!();
 
     controller = AnimationController(vsync: this, duration: Duration(seconds: 1));
 
     controllerScale = AnimationController(vsync: this, duration: Duration(seconds: 1));
-    controllerScale.value = widget.property.isExpanded ? 1 : 0;
+    controllerScale.value = widget.property.isExpanded! ? 1 : 0;
     animationScale = CurvedAnimation(
       parent: controllerScale,
       curve: Curves.elasticIn,
@@ -66,8 +66,8 @@ class _ExpandPanel extends State<ExpandPanel> with TickerProviderStateMixin {
       builder: (ctx, data, _) {
         return Container(
           decoration: BoxDecoration(
-            color: ThemeCore.themeData.cardColor,
-            border: Border.all(color: ThemeCore.themeData.canvasColor)
+            color: ThemeCore.themeData!.cardColor,
+            border: Border.all(color: ThemeCore.themeData!.canvasColor)
           ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -83,18 +83,18 @@ class _ExpandPanel extends State<ExpandPanel> with TickerProviderStateMixin {
                   InkWell(
                     child: AnimatedBuilder(
                       animation: controller, 
-                      builder: (BuildContext context, Widget child) { 
+                      builder: (BuildContext context, Widget? child) { 
                         return Transform.rotate(
-                          angle: widget.property.isExpanded ? 180 * math.pi / 180 : 0, 
-                          child: Icon(Icons.keyboard_arrow_down_outlined, size: 30, color: ThemeCore.themeData.accentTextTheme.bodyText1.color)
+                          angle: widget.property.isExpanded! ? 180 * math.pi / 180 : 0, 
+                          child: Icon(Icons.keyboard_arrow_down_outlined, size: 30, color: ThemeCore.themeData!.accentTextTheme.bodyText1!.color)
                         );
                       },
                     ),
                     //child: Icon(widget.property.isExpanded ? Icons.arrow_drop_up_outlined : Icons.arrow_drop_down_outlined, size: 30, color: ThemeCore.themeData.accentTextTheme.bodyText1.color,),
                     onTap: () {
-                      Provider.of<ArjunaneModelExpandPanel>(context, listen: false).expand(widget.property.id, !widget.property.isExpanded);
-                      widget.property.isExpanded = !widget.property.isExpanded;
-                      if(widget.onChanged != null) widget.onChanged(widget.property.isExpanded);
+                      Provider.of<ArjunaneModelExpandPanel>(context, listen: false).expand(widget.property.id, !widget.property.isExpanded!);
+                      widget.property.isExpanded = !widget.property.isExpanded!;
+                      if(widget.onChanged != null) widget.onChanged!(widget.property.isExpanded);
                     },
                   ),
                 ],
@@ -102,8 +102,8 @@ class _ExpandPanel extends State<ExpandPanel> with TickerProviderStateMixin {
               Container(
                 clipBehavior: Clip.hardEdge,
                 decoration: BoxDecoration(border: Border.all(width: 0, color: Colors.transparent)),
-                height: widget.property.isExpanded ? null : 0,
-                child: Transform.scale(scale: widget.property.isExpanded ? 1 : 0, child: widget.body ?? Container())
+                height: widget.property.isExpanded! ? null : 0,
+                child: Transform.scale(scale: widget.property.isExpanded! ? 1 : 0, child: widget.body ?? Container())
               )
             ],
           )
@@ -115,7 +115,7 @@ class _ExpandPanel extends State<ExpandPanel> with TickerProviderStateMixin {
 }
 
 class ExpandPanelProperty {
-  String id;
-  bool isExpanded;
+  String? id;
+  bool? isExpanded;
   ExpandPanelProperty({this.id, this.isExpanded});
 }

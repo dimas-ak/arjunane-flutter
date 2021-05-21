@@ -8,12 +8,12 @@ import 'app.dart';
 
 typedef CallbackOnBackPress = Future<bool> Function();
 
-class _GetRoute { String baseRoute;}
+class _GetRoute { String? baseRoute;}
 
 class RoutersService
 {
 
-  static CallbackOnBackPress callbackOnBackPress;
+  static CallbackOnBackPress? callbackOnBackPress;
 
   static Future initialRouteSettings(Function(_GetRoute) callback) async {
     _GetRoute gr = new _GetRoute();
@@ -21,7 +21,7 @@ class RoutersService
     run(gr.baseRoute);
   }
 
-  static void run(String route)
+  static void run(String? route)
   {
     if(route == null) route = Configs.baseRoute;
     runApp(new App(baseRoute: route));
@@ -40,7 +40,7 @@ class RoutersService
   /// 
   /// type 0 : 404
   static Widget errorPage(int type, dynamic msg) {
-    var child;
+    late var child;
     if(type == 0) child = _error404(msg);
     return Scaffold(
       appBar: null,
@@ -61,7 +61,7 @@ class RoutersService
     );
   }
 
-  static List<Widget> _error404(String route) {
+  static List<Widget> _error404(String? route) {
     List<Widget> list = [
       Text("404", style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold)),
       SizedBox(height: 10),

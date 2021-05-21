@@ -8,8 +8,8 @@ class ViewWidget extends StatefulWidget {
 
   final String id = Helper.randomString();
 
-  final Key key;
-  final Widget Function(ViewWidgetEvent) child;
+  final Key? key;
+  final Widget Function(ViewWidgetEvent)? child;
 
   ViewWidget({this.key, this.child}) : super(key: key);
 
@@ -19,9 +19,9 @@ class ViewWidget extends StatefulWidget {
 
 class _ViewWidget extends State<ViewWidget> {
 
-  ViewWidgetEvent property;
+  late ViewWidgetEvent property;
 
-  String previousId;
+  String? previousId;
 
   @override
   void initState() {
@@ -33,13 +33,13 @@ class _ViewWidget extends State<ViewWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return Selector<ArjunaneModelViewWidget, String>(
+    return Selector<ArjunaneModelViewWidget, String?>(
       selector: (_, data) {
-        if(data.getId != null && data.getId.split("-")[0] == widget.id) previousId = data.getId;
-        return data.getId != null && data.getId.split("-")[0] == widget.id ? data.getId : previousId;
+        if(data.getId != null && data.getId!.split("-")[0] == widget.id) previousId = data.getId;
+        return data.getId != null && data.getId!.split("-")[0] == widget.id ? data.getId : previousId;
       },
       builder: (ctx, data, _) {
-        return widget.child(property);
+        return widget.child!(property);
       }
     );
   }

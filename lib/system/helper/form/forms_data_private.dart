@@ -5,11 +5,11 @@ class FormsDataPrivate {
   
   Map<String, TextEditingController> inputController = {};
 
-  Map<String, String> getSelectedDropdown = {};
+  Map<String, String?> getSelectedDropdown = {};
 
   Map<String, FormsSelectedRadio> getCheckedRadio = {};
 
-  Map<String, List<bool>> getCheckboxs = {};
+  Map<String, List<bool?>> getCheckboxs = {};
 
   Map<String, bool> getErrorDropdown = {};
 
@@ -17,7 +17,7 @@ class FormsDataPrivate {
 
   Map<String, bool> formEnabled = {};
 
-  bool validate;
+  bool? validate;
 
   Map<String, bool> isErrorForm = {};
 

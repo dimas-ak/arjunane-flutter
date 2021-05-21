@@ -9,12 +9,12 @@ class ThemeCore {
 
   static changeTheme(String name, BuildContext context) => Provider.of<ThemeCoreModel>(context, listen: false).changeTheme(name);
 
-  static Future<String> get themeChoosenName async {
+  static Future<String?> get themeChoosenName async {
     final shared = await SharedPreferences.getInstance();
     return shared.containsKey(ThemeCoreProperty.themeKey) ? shared.getString(ThemeCoreProperty.themeKey) : ThemeCoreProperty.defaultThemeName;
   }
 
-  static ThemeData get themeData {
+  static ThemeData? get themeData {
     return themeCustom[ThemeCoreProperty.themeChoosenName];
   }
 

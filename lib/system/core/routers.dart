@@ -19,12 +19,12 @@ typedef FutureCallback = Future Function(String);
 
 class Routers
 {
-  static Widget getRoute(String name, BuildContext context) {
-    var routes = Configs.routes[name];
+  static Widget getRoute(String? name, BuildContext context) {
+    var routes = Configs.routes[name!];
 
     // throw to 404
     if(routes == null) return RoutersService.errorPage(0, name);
-    Pages finalPages = routes;
+    Pages finalPages = routes as Pages;
     
     return WillPopScope(
       child: routes,
@@ -54,7 +54,7 @@ class Routers
     return routes;
   }
 
-  static Widget app(String route) {
+  static Widget app(String? route) {
     
     var providers = Configs.providers;
 

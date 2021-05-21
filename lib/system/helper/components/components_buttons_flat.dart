@@ -5,16 +5,16 @@ import 'components_buttons_helper.dart';
 import 'components_type_style.dart';
 
 class ButtonsFlat extends StatelessWidget {
-  final String text;
-  final Function onPressed;
-  final Function onLongPressed;
-  final TypeStyle style;
-  final IconData icon;
+  final String? text;
+  final Function? onPressed;
+  final Function? onLongPressed;
+  final TypeStyle? style;
+  final IconData? icon;
   final bool enabled;
   // final bool isFullWidth;
 
   const ButtonsFlat( this.text, {
-    Key key,
+    Key? key,
     this.onPressed, 
     this.onLongPressed, 
     this.style = TypeStyle.primary, 
@@ -28,28 +28,28 @@ class ButtonsFlat extends StatelessWidget {
     var color = ButtonsHelper.getStyleButton(style);
     var child;
 
-    Color textColor;
+    Color? textColor;
     if(style == TypeStyle.light) {
-      textColor = !enabled ? color.borderColorOutline : color.disabledTextColor;
+      textColor = !enabled ? color!.borderColorOutline : color!.disabledTextColor;
     }
     else {
-      textColor = !enabled ? color.disabledBackgroundColor : color.backgroundColor;
+      textColor = !enabled ? color!.disabledBackgroundColor : color!.backgroundColor;
     }
 
-    if(icon == null) child = Text(text, style: TextStyle(color: textColor, fontWeight: FontWeight.bold));
+    if(icon == null) child = Text(text!, style: TextStyle(color: textColor, fontWeight: FontWeight.bold));
     else child = Row(
         children: [
           Icon(icon),
-          Text(text, style: TextStyle(color: textColor, fontWeight: FontWeight.bold))
+          Text(text!, style: TextStyle(color: textColor, fontWeight: FontWeight.bold))
         ],
       );
     
     return Material(
       color: Colors.transparent,
       child: InkWell(
-        splashColor: textColor.withOpacity(.2),
-        onTap: !enabled ? null : onPressed,
-        onLongPress: !enabled ? null : onLongPressed,
+        splashColor: textColor!.withOpacity(.2),
+        onTap: !enabled ? null : onPressed as void Function()?,
+        onLongPress: !enabled ? null : onLongPressed as void Function()?,
         child: Padding(
           padding: EdgeInsets.all(10),
           child: child

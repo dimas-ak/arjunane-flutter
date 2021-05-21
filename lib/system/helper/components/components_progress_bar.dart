@@ -3,19 +3,19 @@ import '../flat_colors.dart';
 
 class ProgressBar extends StatelessWidget {
 
-  final Key key;
+  final Key? key;
   final double percentage;
-  final String textRight;
-  final TextStyle textRightStyle;
-  final TextStyle textTopStyle;
-  final TextStyle textBottomStyle;
-  final String textBottom;
-  final String textTop;
-  final Color colorBar;
+  final String? textRight;
+  final TextStyle? textRightStyle;
+  final TextStyle? textTopStyle;
+  final TextStyle? textBottomStyle;
+  final String? textBottom;
+  final String? textTop;
+  final Color? colorBar;
 
   ProgressBar({
     this.key,
-    @required this.percentage,
+    required this.percentage,
     this.textRight,
     this.textRightStyle,
     this.textBottom,
@@ -34,7 +34,7 @@ class ProgressBar extends StatelessWidget {
         children: [
           if(textTop != null) Padding(
             padding: EdgeInsets.only(bottom: 5),
-            child: Text(textTop, style: textTopStyle)),
+            child: Text(textTop!, style: textTopStyle)),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -55,9 +55,9 @@ class ProgressBar extends StatelessWidget {
                             bottom:0,
                             child: Container(
                               decoration: BoxDecoration(
-                                color: colorBar != null ? colorBar.withOpacity(.2) : FlatColors.googleBlue.withOpacity(.2),
+                                color: colorBar != null ? colorBar!.withOpacity(.2) : FlatColors.googleBlue.withOpacity(.2),
                                 border: Border.all(
-                                  color: colorBar != null ? colorBar.withOpacity(.3) : FlatColors.googleBlue.withOpacity(.3),
+                                  color: colorBar != null ? colorBar!.withOpacity(.3) : FlatColors.googleBlue.withOpacity(.3),
                                   width: 1
                                 )
                               ),
@@ -77,13 +77,13 @@ class ProgressBar extends StatelessWidget {
                 )),
               if(textRight != null) Padding(
                 padding: EdgeInsets.only(left: 10),
-                child: Text(textRight, style: textRightStyle),
+                child: Text(textRight!, style: textRightStyle),
               )
             ],
           ),
           if(textBottom != null) Padding(
             padding: EdgeInsets.only(top: 5),
-            child: Text(textBottom, style: textBottomStyle)),
+            child: Text(textBottom!, style: textBottomStyle)),
         ],
       );
     });

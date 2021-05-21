@@ -12,14 +12,14 @@ class ButtonsNotifier {
 
   final String _keys = Helper.randomString();
 
-  String _defaultText;
-  String _loadingText;
-  String _successText;
-  String _errorText;
+  late String _defaultText;
+  String? _loadingText;
+  String? _successText;
+  String? _errorText;
 
   ButtonsNotifier(this.context);
 
-  Widget setButton(String text, {Function onPressed, Function onLongPressed, String loadingText, String successText, String errorText, bool enabled = true}) {
+  Widget setButton(String text, {Function? onPressed, Function? onLongPressed, String? loadingText, String? successText, String? errorText, bool enabled = true}) {
     _defaultText = text;
     _loadingText = loadingText;
     _successText = successText;
@@ -35,7 +35,7 @@ class ButtonsNotifier {
             style: ButtonStyle(
               backgroundColor: MaterialStateProperty.all(_colorButton(data[_keys]))
             ),
-            key: ValueKey<ButtonsNotifierStatus>(data[_keys]),
+            key: ValueKey<ButtonsNotifierStatus?>(data[_keys]),
             onPressed: !enabled && (data[_keys] == null || data[_keys] == ButtonsNotifierStatus.begin) ? null : () {  
               if((data[_keys] == null || data[_keys] == ButtonsNotifierStatus.begin) && onPressed != null) {
                 onPressed();
@@ -54,7 +54,7 @@ class ButtonsNotifier {
     );
   }
 
-  Color _colorButton(ButtonsNotifierStatus status) {
+  Color _colorButton(ButtonsNotifierStatus? status) {
     Color color;
     switch (status) {
       case ButtonsNotifierStatus.loading:
@@ -73,7 +73,7 @@ class ButtonsNotifier {
     return color;
   } 
 
-  Widget _buttons(ButtonsNotifierStatus status) {
+  Widget _buttons(ButtonsNotifierStatus? status) {
     Widget widget;
     switch (status) {
       case ButtonsNotifierStatus.loading:
@@ -90,7 +90,7 @@ class ButtonsNotifier {
                   )
                 )
               ),
-              if(_loadingText != null) Padding(padding: EdgeInsets.only(left: 10), child: Text(_loadingText))
+              if(_loadingText != null) Padding(padding: EdgeInsets.only(left: 10), child: Text(_loadingText!))
             ],
           );
         break;
@@ -99,7 +99,7 @@ class ButtonsNotifier {
             mainAxisSize: MainAxisSize.min,
             children: [
               Icon(Icons.cancel_outlined, color: Colors.white),
-              if(_errorText != null) Padding(padding: EdgeInsets.only(left: 10), child: Text(_errorText))
+              if(_errorText != null) Padding(padding: EdgeInsets.only(left: 10), child: Text(_errorText!))
             ],
           );
         break;
@@ -108,7 +108,7 @@ class ButtonsNotifier {
             mainAxisSize: MainAxisSize.min,
             children: [
               Icon(Icons.check_outlined, color: Colors.white),
-              if(_successText != null) Padding(padding: EdgeInsets.only(left: 10), child: Text(_successText))
+              if(_successText != null) Padding(padding: EdgeInsets.only(left: 10), child: Text(_successText!))
             ],
           );
         break;

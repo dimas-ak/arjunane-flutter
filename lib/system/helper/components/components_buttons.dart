@@ -6,17 +6,17 @@ import 'components_type_style.dart';
 
 class Buttons extends StatelessWidget
 {
-  final String text;
-  final Function onPressed;
-  final Function onLongPressed;
-  final TypeStyle style;
-  final IconData icon;
-  final bool enabled;
+  final String? text;
+  final Function? onPressed;
+  final Function? onLongPressed;
+  final TypeStyle? style;
+  final IconData? icon;
+  final bool? enabled;
   final bool isRounded;
   // final bool isFullWidth;
 
   const Buttons( this.text, {
-    Key key,
+    Key? key,
     this.onPressed, 
     this.onLongPressed, 
     this.style = TypeStyle.primary, 
@@ -31,11 +31,11 @@ class Buttons extends StatelessWidget
     var color = ButtonsHelper.getStyleButton(style);
     var child;
 
-    if(icon == null) child = Text(text);
+    if(icon == null) child = Text(text!);
     else child = Row(
         children: [
           Icon(icon),
-          Text(text)
+          Text(text!)
         ],
       );
     
@@ -49,11 +49,11 @@ class Buttons extends StatelessWidget
         shape: MaterialStateProperty.all(RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(isRounded ? 100 : 0)
         )),
-        backgroundColor: MaterialStateProperty.all(enabled ? color.backgroundColor : color.disabledBackgroundColor),
-        foregroundColor: MaterialStateProperty.all(enabled ? color.textColor : color.disabledTextColor)
+        backgroundColor: MaterialStateProperty.all(enabled! ? color!.backgroundColor : color!.disabledBackgroundColor),
+        foregroundColor: MaterialStateProperty.all(enabled! ? color.textColor : color.disabledTextColor)
       ),
-      onPressed: !enabled ? null : onPressed,
-      onLongPress: !enabled ? null : onLongPressed,
+      onPressed: !enabled! ? null : onPressed as void Function()?,
+      onLongPress: !enabled! ? null : onLongPressed as void Function()?,
       
       child: child,
     );
