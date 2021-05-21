@@ -25,7 +25,7 @@ class CommandPlugins extends Command {
         String newValue = "";
 
         newValue = "$match\n";
-        if(!isPackageExist(fileText, 'http')) newValue += "  http: ^0.13.1\n";
+        if(!isPackageExist(fileText, 'http')) newValue += "  http: ^0.13.3\n";
         if(!isPackageExist(fileText, 'provider')) newValue += "  provider: ^5.0.0\n";
         if(!isPackageExist(fileText, 'path_provider')) newValue += "  path_provider: ^2.0.1\n";
         if(!isPackageExist(fileText, 'shared_preferences')) newValue += "  shared_preferences: ^2.0.5";
